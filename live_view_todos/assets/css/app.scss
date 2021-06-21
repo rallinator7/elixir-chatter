@@ -1,0 +1,9 @@
+/* This won't woprk since we want postcss-import so we can use @apply inside included 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ */
+
+ @import "tailwindcss/base";
+ @import "tailwindcss/components";
+ @import "tailwindcss/utilities";
