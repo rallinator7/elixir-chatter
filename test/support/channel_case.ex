@@ -1,4 +1,4 @@
-defmodule ChatWeb.ChannelCase do
+defmodule ChatterWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule ChatWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ChatWeb.ChannelCase, async: true`, although
+  by setting `use ChatterWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule ChatWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import ChatWeb.ChannelCase
+      import ChatterWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint ChatWeb.Endpoint
+      @endpoint ChatterWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Chat.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Chatter.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Chat.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Chatter.Repo, {:shared, self()})
     end
 
     :ok

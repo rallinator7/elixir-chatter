@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Configure your database
-config :chat, Chat.Repo,
+config :chatter, Chatter.Repo,
   username: "phoenix",
   password: "phoenix",
   database: "phoenix",
@@ -15,7 +15,7 @@ config :chat, Chat.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :chat, ChatWeb.Endpoint,
+config :chatter, ChatterWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -55,13 +55,13 @@ config :chat, ChatWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :chat, ChatWeb.Endpoint,
+config :chatter, ChatterWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/chat_web/(live|views)/.*(ex)$",
-      ~r"lib/chat_web/templates/.*(eex)$"
+      ~r"lib/chatter_web/(live|views)/.*(ex)$",
+      ~r"lib/chatter_web/templates/.*(eex)$"
     ]
   ]
 
