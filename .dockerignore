@@ -6,4 +6,6 @@ Dockerfile
 Makefile
 README*
 test/
-priv/static/
+/.elixir_ls/*
+assets/node_modules
+docker/*
