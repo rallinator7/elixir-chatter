@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  chatter:
+    image: chatter:latest
+    environment:
+      DATABASE_URL: ecto://phoenix:phoenix@db:5432/phoenix
+      SECRET_KEY_BASE: JhhLO9oACpINDgzWo9xBWw+qKCrh7C6tzUhBo4rMGCbB51ssgPzZpkL812d12fL1
+    networks:
+      - phoenix-postgres
+    ports: 
+      - 4000:4000     
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: phoenix
+      POSTGRES_USER: phoenix
+      POSTGRES_DB: phoenix
+    ports: 
+      - 5432:5432
+    networks:
+      - phoenix-postgres
+    volumes: 
+      - phoenix-postgres:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - phoenix-postgres
+volumes:
+  phoenix-postgres:
+    external: true
+networks: 
+  phoenix-postgres:
+    external: true

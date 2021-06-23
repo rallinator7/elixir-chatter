@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  labels:
+    app: chatter
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: chatter
+  template:
+    metadata:
+      labels:
+        app: chatter
+    spec:
+      containers:
+      - name: {{ .Values.deployment.name }}
+        image: {{ .Values.deployment.image }}
+        ports:
+        - containerPort: {{ .Values.deployment.port }}
+      initContainers:
+      - name: {{ .Values.deployment.initName }}
+        image: {{ .Values.deployment.initImage }}
+        

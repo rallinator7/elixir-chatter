@@ -1,0 +1,11 @@
+deployment:
+  name: chatter
+  replicas: 1
+  image: localhost:5000/chatter
+  initName: init-phoenix
+  initImage: localhost:5000/phoenix-init:latest
+  port: 4000
+
+service:
+  name: chatter-service
+  nodePort: 31000
