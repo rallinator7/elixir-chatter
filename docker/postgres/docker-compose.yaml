@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: phoenix
+      POSTGRES_USER: phoenix
+      POSTGRES_DB: phoenix
+    ports: 
+      - 5432:5432
+    networks:
+      - phoenix-postgres
+    volumes: 
+      - phoenix-postgres:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - phoenix-postgres
+volumes:
+  phoenix-postgres:
+    external: true
+networks: 
+  phoenix-postgres:
+    external: true

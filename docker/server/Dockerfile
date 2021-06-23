@@ -30,8 +30,8 @@ RUN cd assets/ && \
 
 FROM bitwalker/alpine-elixir:latest
 
-EXPOSE 5000
-ENV PORT=5000 MIX_ENV=prod
+EXPOSE 4000
+ENV PORT=4000 MIX_ENV=prod
 
 COPY --from=phx-builder /opt/app/_build /opt/app/_build
 COPY --from=phx-builder /opt/app/priv /opt/app/priv
