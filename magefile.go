@@ -371,16 +371,22 @@ func (Kube) DeployServices() error {
 		return fmt.Errorf("could not get root directory: %s", err)
 	}
 
-	l := filepath.Join(path, "kubernetes", "postgres")
+	l := filepath.Join(path, "kubernetes")
 
 	err = os.Chdir(l)
 	if err != nil {
 		return fmt.Errorf("could not change directories: %s", err)
 	}
 
-	err = sh.RunWith(env, "helm", "install", "postgres", ".")
-	if err != nil {
-		return fmt.Errorf("failed installing postgres: %s", err)
+	charts := []string{"postgres", "chatter"}
+
+	for _, chart := range charts {
+		helmPath := filepath.Join(".", chart)
+
+		err = sh.RunWith(env, "helm", "install", chart, helmPath)
+		if err != nil {
+			return fmt.Errorf("failed installing %s: %s", chart, err)
+		}
 	}
 
 	return nil
@@ -388,24 +394,18 @@ func (Kube) DeployServices() error {
 
 // pushes the init and chatter service to the kind repo
 func (Kube) Push() error {
-	err := sh.RunWith(env, "docker", "tag", "$APP_NAME:latest", "localhost:$REGISTRY_PORT/$APP_NAME:latest")
-	if err != nil {
-		return fmt.Errorf("failed tagging docker image:  %s", err)
-	}
+	images := []string{"$APP_NAME", "$INIT_NAME"}
 
-	err = sh.RunWith(env, "docker", "tag", "$INIT_NAME:latest", "localhost:$REGISTRY_PORT/$INIT_NAME:latest")
-	if err != nil {
-		return fmt.Errorf("failed tagging docker image:  %s", err)
-	}
+	for _, image := range images {
+		err := sh.RunWith(env, "docker", "tag", image+":latest", "localhost:$REGISTRY_PORT/"+image+":latest")
+		if err != nil {
+			return fmt.Errorf("failed tagging docker image:  %s", err)
+		}
 
-	err = sh.RunWith(env, "docker", "push", "localhost:$REGISTRY_PORT/$APP_NAME:latest")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image:  %s", err)
-	}
-
-	err = sh.RunWith(env, "docker", "push", "localhost:5000/phoenix-init:latest")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image:  %s", err)
+		err = sh.RunWith(env, "docker", "push", "localhost:$REGISTRY_PORT/"+image+":latest")
+		if err != nil {
+			return fmt.Errorf("failed pusing docker image:  %s", err)
+		}
 	}
 
 	return nil
@@ -449,24 +449,19 @@ func (CI) Build() error {
 
 // pushes images to ghcr
 func (CI) Push() error {
-	err := sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/$APP_NAME:latest")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image: %s", err)
-	}
+	images := []string{"$APP_NAME", "$INIT_NAME"}
+	var err error
 
-	err = sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/$INIT_NAME:latest")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image:  %s", err)
-	}
+	for _, image := range images {
+		err = sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/"+image+":latest")
+		if err != nil {
+			return fmt.Errorf("failed pusing docker image:  %s", err)
+		}
 
-	err = sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/$APP_NAME:$GIT_COMMIT")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image:  %s", err)
-	}
-
-	err = sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/$INIT_NAME:$GIT_COMMIT")
-	if err != nil {
-		return fmt.Errorf("failed pusing docker image:  %s", err)
+		err = sh.RunWith(env, "docker", "push", "ghcr.io/$GITHUB_OWNER/"+image+":$GIT_COMMIT")
+		if err != nil {
+			return fmt.Errorf("failed pusing docker image:  %s", err)
+		}
 	}
 
 	return nil

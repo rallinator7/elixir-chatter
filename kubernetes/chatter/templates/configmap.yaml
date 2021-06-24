@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.config.name }}
+data:
+  secretKeyBase: {{ .Values.config.secretKeyBase }}
+  databaseUrl: {{ .Values.config.databaseUrl }}

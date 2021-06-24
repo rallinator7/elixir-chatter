@@ -24,3 +24,13 @@ If you only want to go as far as Docker, then you can stop here! If you would li
 - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/): Kind allows us to run Kubernetes in Docker.  Although your produciton cluster should not run with Kind, it is a great tool for local development!
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/): Kubectl is how we will be communicating with our clusters
 - [Helm](https://helm.sh/docs/intro/install/): Helm is how we will be packaging our kubernetes applications so they can be deployed into our cluster
+- [Age](https://github.com/FiloSottile/age): Age is a simple, modern and secure file encryption tool that aims to tackle some of the downfalls of GPG.  We will be using it secure secrets in Kubernetes
+- [Sops](https://github.com/mozilla/sops): Sops will leverage age to encrypt yaml files for Kubernetes
+
+## Deploying With Docker
+![Contribution guidelines for this project](repo_assets/phoenix-docker-compose.png)
+
+
+## Deploying on Kubernetes
+![Contribution guidelines for this project](repo_assets/chatter-kubernetes.png)
+![Contribution guidelines for this project](repo_assets/phoenix-deployment.png)

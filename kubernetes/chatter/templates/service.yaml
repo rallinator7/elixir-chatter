@@ -6,6 +6,7 @@ spec:
   type: NodePort
   ports:
   - port: {{ .Values.deployment.port }}
+    targetPort: {{ .Values.deployment.port }}
     nodePort: {{ .Values.service.nodePort }}
   selector:
-    app: chatter
+    app: {{ .Values.deployment.label }}

@@ -3,23 +3,44 @@ kind: Deployment
 metadata:
   name: {{ .Values.deployment.name }}
   labels:
-    app: chatter
+    app: {{ .Values.deployment.label }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: chatter
+      app: {{ .Values.deployment.label }}
   template:
     metadata:
       labels:
-        app: chatter
+        app: {{ .Values.deployment.label }}
     spec:
+      initContainers:
+      - name: {{ .Values.deployment.initName }}
+        image: {{ .Values.deployment.initImage }}
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.config.name }}
+              key: databaseUrl
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.config.name }}
+              key: secretKeyBase
       containers:
       - name: {{ .Values.deployment.name }}
         image: {{ .Values.deployment.image }}
         ports:
         - containerPort: {{ .Values.deployment.port }}
-      initContainers:
-      - name: {{ .Values.deployment.initName }}
-        image: {{ .Values.deployment.initImage }}
-        
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.config.name }}
+              key: databaseUrl
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.config.name }}
+              key: secretKeyBase

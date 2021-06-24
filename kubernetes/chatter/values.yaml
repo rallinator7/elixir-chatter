@@ -5,7 +5,13 @@ deployment:
   initName: init-phoenix
   initImage: localhost:5000/phoenix-init:latest
   port: 4000
+  label: chatter
 
 service:
   name: chatter-service
   nodePort: 31000
+
+config:
+  name: chatter-config
+  secretKeyBase: JhhLO9oACpINDgzWo9xBWw+qKCrh7C6tzUhBo4rMGCbB51ssgPzZpkL812d12fL1
+  databaseUrl: ecto://phoenix:phoenix@postgres-postgresql:5432/phoenix
