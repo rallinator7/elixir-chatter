@@ -1,0 +1,37 @@
+name: Build and Push
+on: push
+    # branches:
+    #   - main
+jobs:
+  test:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:11
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: phoenix
+          POSTGRES_USER: phoenix
+          POSTGRES_DB: phoenix
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: 22.2.6
+          elixir-version: 1.10.1
+      - name: Run Tests
+        run: mix ci.test
+      - name: Build Images
+        run: mix ci.build
+      - name: Push Images
+        run: mix ci.push
+
+      
