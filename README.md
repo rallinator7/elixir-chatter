@@ -15,8 +15,6 @@ This repository relies on these tools/software that will need to be installed pr
 
 - [Elixir](https://elixir-lang.org/install.html): We can't run an elixir application without elixir!
 - [Phoenix Framework](https://hexdocs.pm/phoenix/installation.html): Again, Phoenix is the P in PETAL, so we're going to need it installed.  You can ignore the Postgres instruction, for we will be using docker.
-- [Golang](https://golang.org/doc/install): Why Go?  Elixir has many advantages, but I personally find it much simpler to get cli commands running in Go than I do with Mix Tasks.  Don't worry, you will not have to write any Go, it is just being used for our Mage tool.
-- [Mage](https://magefile.org/): A replacement for Make that is written in Go.  Some of the advantages that Mage has over Make is that it can be executed on any OS that golang is compatible with as long as Go is installed.  Because it leverages Go, Mage can use any golang library to make your script as powerful as they need to be.
 - [Docker](https://docs.docker.com/get-docker/): Docker will be the backbone for our deployments.  It's an easy to use containerization platform that allows you to spin up and down linux containers on the major OSes.
 
 If you only want to go as far as Docker, then you can stop here! If you would like to see how to deploy into kubernetes, you will need:
